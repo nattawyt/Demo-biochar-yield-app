@@ -70,10 +70,11 @@ st.markdown(
 
 .success-box {
     background-color: #e6f4ea;
-    padding: 14px;
+    padding: 18px;
     border-radius: 10px;
     color: #137333;
-    font-size: 1rem;
+    font-size: 1.6rem;
+    font-weight: 700;
 }
 
 .info-box {
