@@ -301,6 +301,60 @@ if optimize_clicked:
         st.markdown(f'<div class="small-card-number">{best_HR}</div>',
                     unsafe_allow_html=True)
 
+    # =========================================================
+    # RESPONSE CURVES
+    # =========================================================
+    temp_curve = [predict_yield(feed, T, best_RT, best_HR) for T in T_GRID]
+    rt_curve = [predict_yield(feed, best_T, RT, best_HR) for RT in RT_GRID]
+    hr_curve = [predict_yield(feed, best_T, best_RT, HR) for HR in HR_GRID]
+
+    current_temp_y = predict_yield(feed, temp_fixed, best_RT, best_HR)
+    current_rt_y = predict_yield(feed, best_T, rt_fixed, best_HR)
+    current_hr_y = predict_yield(feed, best_T, best_RT, hr_fixed)
+
+    st.markdown("### Response curves")
+
+    fig, axes = plt.subplots(1, 3, figsize=(16, 4.8))
+
+    # Temperature plot
+    axes[0].plot(T_GRID, temp_curve, marker="o")
+    axes[0].axvline(best_T, linestyle="--", label="Recommended")
+    axes[0].scatter(best_T, best_y, s=60)
+    axes[0].axvline(temp_fixed, color="red", label="Current")
+    axes[0].scatter(temp_fixed, current_temp_y, color="red", s=50)
+    axes[0].set_xlabel("Temperature (°C)")
+    axes[0].set_ylabel("Predicted Yield")
+    axes[0].set_title("Yield vs Temperature")
+    axes[0].legend()
+    axes[0].grid(True)
+
+    # RT plot
+    axes[1].plot(RT_GRID, rt_curve, marker="o")
+    axes[1].axvline(best_RT, linestyle="--", label="Recommended")
+    axes[1].scatter(best_RT, best_y, s=60)
+    axes[1].axvline(rt_fixed, color="red", label="Current")
+    axes[1].scatter(rt_fixed, current_rt_y, color="red", s=50)
+    axes[1].set_xlabel("Residence Time (min)")
+    axes[1].set_ylabel("Predicted Yield")
+    axes[1].set_title("Yield vs Residence Time")
+    axes[1].legend()
+    axes[1].grid(True)
+
+    # HR plot
+    axes[2].plot(HR_GRID, hr_curve, marker="o")
+    axes[2].axvline(best_HR, linestyle="--", label="Recommended")
+    axes[2].scatter(best_HR, best_y, s=60)
+    axes[2].axvline(hr_fixed, color="red", label="Current")
+    axes[2].scatter(hr_fixed, current_hr_y, color="red", s=50)
+    axes[2].set_xlabel("Heating Rate (°C/min)")
+    axes[2].set_ylabel("Predicted Yield")
+    axes[2].set_title("Yield vs Heating Rate")
+    axes[2].legend()
+    axes[2].grid(True)
+
+    plt.tight_layout()
+    st.pyplot(fig, use_container_width=True)
+
     with st.expander("Show top 10 candidate conditions"):
         st.dataframe(results_df.head(10),
                      use_container_width=True)
