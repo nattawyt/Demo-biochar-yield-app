@@ -127,7 +127,7 @@ feature_order = list(model.feature_names_in_)
 # SEARCH GRID
 # =========================================================
 T_GRID = np.arange(300, 701, 10)
-RT_GRID = np.arange(10, 121, 10)
+RT_GRID = np.arange(10, 181, 10)
 HR_GRID = np.arange(5, 31, 5)
 
 # =========================================================
@@ -207,7 +207,7 @@ o_bio = st.sidebar.number_input("O (%)", 0.0, 100.0, 41.4)
 st.sidebar.markdown("## Current process settings")
 
 temp_fixed = st.sidebar.number_input("Temperature (°C)", 300, 700, 500)
-rt_fixed = st.sidebar.number_input("RT (min)", 10, 120, 60)
+rt_fixed = st.sidebar.number_input("RT (min)", 10, 180, 60)
 hr_fixed = st.sidebar.number_input("HR (°C/min)", 5, 30, 10)
 
 optimize_clicked = st.sidebar.button("🚀 Run optimization")
